@@ -12,36 +12,15 @@ import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        int i = 1;
-        while(i < 100) {
+        KafkaDispatcher dispatcher = new KafkaDispatcher();
 
-        KafkaProducer producer = new KafkaProducer<String, String>(properties());
-        String key = UUID.randomUUID().toString();
-        String value = key + ", 17049, 3048952";
-        ProducerRecord record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
+        for (int i = 0; i < 10; i++) {
+            String key = UUID.randomUUID().toString();
+            String value = key + ", 17049, 3048952";
+            dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
 
-        Callback callback = (data, exception) -> {
-            if (exception != null) {
-                exception.printStackTrace();
-                return;
-            }
-            System.out.println("Message sent " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
-        };
-
-        String email = "Thank you for your order! We are processing your request";
-        ProducerRecord emailRecord = new ProducerRecord("ECOMMERCE_SEND_EMAIL", key ,email);
-        producer.send(record, callback).get();
-        producer.send(emailRecord, callback).get();
-        i++;
+            String email = "Thank you for your order! We are processing your request";
+            dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
         }
-
-    }
-
-    private static Properties properties() {
-        Properties properties = new Properties();
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        return properties;
     }
 }
