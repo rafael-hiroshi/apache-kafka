@@ -7,12 +7,11 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class LogService {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         KafkaConsumer consumer = new KafkaConsumer<String, String>(properties());
         consumer.subscribe(Pattern.compile("ECOMMERCE.*"));
 
