@@ -1,17 +1,22 @@
 package br.com.alura.ecommerce;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class NewOrderMain {
     public static void main(String[] args) {
-        try(KafkaDispatcher dispatcher = new KafkaDispatcher()) {
-            for (int i = 0; i < 10; i++) {
-                String key = UUID.randomUUID().toString();
-                String value = key + ", 17049, 3048952";
-                dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
+        try(KafkaDispatcher orderDispatcher = new KafkaDispatcher<Order>()) {
+            try(KafkaDispatcher emailDispatcher = new KafkaDispatcher<String>()) {
+                for (int i = 0; i < 10; i++) {
+                    String userId = UUID.randomUUID().toString();
+                    String orderId = UUID.randomUUID().toString();
+                    BigDecimal amount = new BigDecimal(Math.random() * 5000 + 1);
+                    Order order = new Order(userId, orderId, amount);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
 
-                String email = "Thank you for your order! We are processing your request";
-                dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+                    String email = "Thank you for your order! We are processing your request";
+                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
+                }
             }
         } catch (Exception e){
             e.printStackTrace();
