@@ -5,11 +5,14 @@ import org.apache.kafka.clients.consumer.*;
 public class FraudDetectorService {
     public static void main(String[] args) {
         FraudDetectorService fraudDetectorService = new FraudDetectorService();
-        KafkaService service = new KafkaService(FraudDetectorService.class.getSimpleName(), "ECOMMERCE_NEW_ORDER", fraudDetectorService::parse);
+        KafkaService service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
+                "ECOMMERCE_NEW_ORDER",
+                fraudDetectorService::parse,
+                Order.class);
         service.run();
     }
 
-    private void parse(ConsumerRecord<String, String> record) {
+    private void parse(ConsumerRecord<String, Order> record) {
         try {
             System.out.println("-----------------------------------------");
             System.out.printf("Consumer Record: (%s, %s, %d, %d)\n", record.key(), record.value(), record.partition(), record.offset());

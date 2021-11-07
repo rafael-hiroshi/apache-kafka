@@ -6,7 +6,10 @@ import java.util.regex.Pattern;
 public class LogService {
     public static void main(String[] args) {
         LogService logService = new LogService();
-        KafkaService service = new KafkaService(LogService.class.getSimpleName(), Pattern.compile("ECOMMERCE.*"), logService::parse);
+        KafkaService service = new KafkaService(LogService.class.getSimpleName(),
+                Pattern.compile("ECOMMERCE.*"),
+                logService::parse,
+                String.class);
         service.run();
     }
 
