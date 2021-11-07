@@ -1,7 +1,6 @@
 package br.com.alura.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -10,7 +9,6 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class KafkaService<T> {
@@ -34,7 +32,7 @@ public class KafkaService<T> {
 
     public void run() {
         while(true) {
-            ConsumerRecords records = consumer.poll(Duration.ofMillis(100));
+            ConsumerRecords<String, T> records = consumer.poll(Duration.ofMillis(100));
 
             if (records.isEmpty()) {
                 continue;
@@ -43,8 +41,8 @@ public class KafkaService<T> {
             System.out.println("Found " + records.count() + " records");
             for (var record : records) {
                 try {
-                    parse.consume((ConsumerRecord<String, String>) record);
-                } catch (ExecutionException | InterruptedException e) {
+                    parse.consume(record);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
