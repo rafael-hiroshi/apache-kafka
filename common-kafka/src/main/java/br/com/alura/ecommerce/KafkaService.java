@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class KafkaService<T> {
@@ -41,7 +42,11 @@ public class KafkaService<T> {
 
             System.out.println("Found " + records.count() + " records");
             for (var record : records) {
-                parse.consume((ConsumerRecord<String, String>) record);
+                try {
+                    parse.consume((ConsumerRecord<String, String>) record);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
