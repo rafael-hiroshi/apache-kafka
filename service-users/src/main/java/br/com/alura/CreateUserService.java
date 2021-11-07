@@ -1,12 +1,11 @@
 package br.com.alura;
 
-import br.com.alura.ecommerce.KafkaDispatcher;
 import br.com.alura.ecommerce.KafkaService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.sql.*;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
+import java.util.UUID;
 
 public class CreateUserService {
 
@@ -31,7 +30,7 @@ public class CreateUserService {
     private void parse(ConsumerRecord<String, Order> record) throws SQLException {
         System.out.println("-----------------------------------------");
         System.out.println("Processing new order, checking for new user");
-        System.out.printf("Consumer Record: (%s, %s, %d, %d)\n", record.value());
+        System.out.printf("Consumer Record: (%s)\n", record.value());
 
         Order order = record.value();
 
@@ -41,11 +40,12 @@ public class CreateUserService {
     }
 
     private void insertNewUser(String email) throws SQLException {
+        String uuid = UUID.randomUUID().toString();
         PreparedStatement insert = connection.prepareStatement("INSERT INTO Users (uuid, email) VALUES (?, ?)");
-        insert.setString(1, "uuid");
-        insert.setString(2, "email");
+        insert.setString(1, uuid);
+        insert.setString(2, email);
         insert.execute();
-        System.out.println("User uuid and email " + email + " added");
+        System.out.println("User " + uuid + " and email " + email + " added");
 
     }
 
