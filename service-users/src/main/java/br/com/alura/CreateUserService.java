@@ -12,14 +12,12 @@ public class CreateUserService {
     private final Connection connection;
 
     public CreateUserService() throws SQLException {
-        String url = "jdbc:sqlite:target/users_database.db";
-        this.connection = DriverManager.getConnection(url);
-        connection.createStatement().execute("Create table if not exists Users (uuid varchar(200) primary key, email varchar(200))");
+        this.connection = new ConnectionFactory().getConnection();
     }
 
     public static void main(String[] args) throws SQLException {
         CreateUserService createUserService = new CreateUserService();
-        KafkaService service = new KafkaService<>(CreateUserService.class.getSimpleName(),
+        KafkaService<Order> service = new KafkaService<>(CreateUserService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 createUserService::parse,
                 Order.class,

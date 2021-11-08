@@ -13,17 +13,17 @@ public class ReadingReportService {
 
     public static void main(String[] args) {
         ReadingReportService readingReportService = new ReadingReportService();
-        KafkaService service = new KafkaService<>(ReadingReportService.class.getSimpleName(),
+        KafkaService<User> service = new KafkaService<>(ReadingReportService.class.getSimpleName(),
                 "USER_GENERATE_READING_REPORT",
                 readingReportService::parse,
-                Order.class,
+                User.class,
                 new HashMap<>());
         service.run();
     }
 
     private void parse(ConsumerRecord<String, User> record) throws IOException {
         System.out.println("-----------------------------------------");
-        System.out.printf("Processing report for " + record.value());
+        System.out.print("Processing report for " + record.value());
 
         User user = record.value();
         File target = new File(user.getReportPath());

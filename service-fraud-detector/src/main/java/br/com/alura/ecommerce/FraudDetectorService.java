@@ -7,17 +7,17 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 public class FraudDetectorService {
+    private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
+
     public static void main(String[] args) {
         FraudDetectorService fraudDetectorService = new FraudDetectorService();
-        KafkaService service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
+        KafkaService<Order> service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 fraudDetectorService::parse,
                 Order.class,
                 new HashMap<>());
         service.run();
     }
-
-    private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
 
     private void parse(ConsumerRecord<String, Order> record) throws ExecutionException, InterruptedException {
         try {
