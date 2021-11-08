@@ -21,11 +21,13 @@ public class ReadingReportService {
         service.run();
     }
 
-    private void parse(ConsumerRecord<String, User> record) throws IOException {
+    private void parse(ConsumerRecord<String, Message<User>> record) throws IOException {
         System.out.println("-----------------------------------------");
         System.out.print("Processing report for " + record.value());
 
-        User user = record.value();
+        Message<User> message = record.value();
+        User user = message.getPayload();
+
         File target = new File(user.getReportPath());
         IO.copyTo(SOURCE, target);
         IO.append(target, "Created for " + user.getUuid());
