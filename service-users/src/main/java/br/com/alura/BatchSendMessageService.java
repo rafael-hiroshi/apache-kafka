@@ -25,7 +25,7 @@ public class BatchSendMessageService {
 
     public static void main(String[] args) throws SQLException {
         BatchSendMessageService batchService = new BatchSendMessageService();
-        KafkaService<String> service = new KafkaService<>(BatchSendMessageService.class.getSimpleName(),
+        KafkaService service = new KafkaService(BatchSendMessageService.class.getSimpleName(),
                 "SEND_MESSAGE_TO_ALL_USERS",
                 batchService::parse,
                 String.class,
