@@ -10,7 +10,8 @@ public class NewOrderMain {
                 for (int i = 0; i < 10; i++) {
                     String orderId = UUID.randomUUID().toString();
                     BigDecimal amount = new BigDecimal(Math.random() * 5000 + 1);
-                    String userEmail = Math.random() + "@email.com";
+                    //String userEmail = Math.random() + "@email.com";
+                    String userEmail = "test@email.com";
 
                     Order order = new Order(orderId, amount, userEmail);
                     orderDispatcher.send("ECOMMERCE_NEW_ORDER", userEmail, order);
