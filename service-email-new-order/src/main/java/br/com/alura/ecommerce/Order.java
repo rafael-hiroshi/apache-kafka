@@ -1,3 +1,5 @@
+package br.com.alura.ecommerce;
+
 import java.math.BigDecimal;
 
 public class Order {
@@ -22,7 +24,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "br.com.alura.ecommerce.Order{" +
                 "orderId='" + orderId + '\'' +
                 ", amount=" + amount +
                 ", email='" + email + '\'' +

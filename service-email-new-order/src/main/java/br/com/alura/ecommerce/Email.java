@@ -1,3 +1,5 @@
+package br.com.alura.ecommerce;
+
 public class Email {
 
     private final String subject, body;
