@@ -14,12 +14,14 @@ public class EmailService {
         service.run();
     }
 
-    private void parse(ConsumerRecord<String, Email> record) {
+    private void parse(ConsumerRecord<String, Message<Email>> record) {
         try {
             System.out.println("-----------------------------------------");
-            System.out.printf("Consumer Record: (%s, %s, %d, %d)\n", record.key(), record.value(), record.partition(), record.offset());
-            System.out.println("Email sent");
+            System.out.println("Send email");
+            System.out.println("Key: " + record.key() + " Value: " + record.value() + " Partition: " + record.partition()
+                    + " Offset: " + record.offset());
             Thread.sleep(2500);
+            System.out.println("Email sent");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
