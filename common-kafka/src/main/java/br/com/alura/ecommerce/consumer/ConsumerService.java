@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public interface ConsumerService<T> {
 
-    void parse(ConsumerRecord<String, Message<T>> record) throws IOException, ExecutionException, SQLException;
+    void parse(ConsumerRecord<String, Message<T>> record) throws IOException, ExecutionException, SQLException, InterruptedException;
     String getTopic();
     public String getConsumerGroup();
 
