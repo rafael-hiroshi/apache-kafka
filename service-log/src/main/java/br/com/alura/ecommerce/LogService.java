@@ -18,8 +18,13 @@ public class LogService {
         service.run();
     }
 
-    private void parse(ConsumerRecord<String, String> record) {
-        ConsumerRecord<String, String> rc = record;
-        System.out.printf("Log: (%s, %s, %d, %d)\n", rc.key(), rc.value(), rc.partition(), rc.offset());
+    private void parse(ConsumerRecord<String, Message<String>> record) {
+        System.out.println("-------------------LOG-------------------");
+        System.out.println("topic: " + record.topic());
+        System.out.println("key: " + record.key());
+        System.out.println("value: " + record.value());
+        System.out.println("partition: " + record.partition());
+        System.out.println("offset: " + record.offset());
+        System.out.println("--------------------------------------");
     }
 }

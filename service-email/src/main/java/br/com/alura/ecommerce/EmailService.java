@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class EmailService {
     public static void main(String[] args) {
         EmailService emailService = new EmailService();
-        KafkaService service = new KafkaService<>(EmailService.class.getSimpleName(),
+        KafkaService service = new KafkaService(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
                 emailService::parse,
                 Email.class,

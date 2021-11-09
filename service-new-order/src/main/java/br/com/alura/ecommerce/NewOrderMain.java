@@ -14,10 +14,10 @@ public class NewOrderMain {
                     String userEmail = "test@email.com";
 
                     Order order = new Order(orderId, amount, userEmail);
-                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userEmail, order);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userEmail, new CorrelationId(NewOrderMain.class.getSimpleName()), order);
 
                     Email emailContent = new Email("Order received", "Thank you for your order! We are processing your request");
-                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userEmail, emailContent);
+                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userEmail, new CorrelationId(NewOrderMain.class.getSimpleName()), emailContent);
                 }
             }
         } catch (Exception e){
