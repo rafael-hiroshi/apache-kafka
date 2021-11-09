@@ -20,7 +20,7 @@ public class BatchSendMessageService {
         this.connection = new ConnectionFactory().getConnection();
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ExecutionException, InterruptedException {
         BatchSendMessageService batchService = new BatchSendMessageService();
         KafkaService service = new KafkaService(BatchSendMessageService.class.getSimpleName(),
                 "ECOMMERCE_SEND_MESSAGE_TO_ALL_USERS",

@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 public class FraudDetectorService {
     private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         FraudDetectorService fraudDetectorService = new FraudDetectorService();
         KafkaService service = new KafkaService(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
