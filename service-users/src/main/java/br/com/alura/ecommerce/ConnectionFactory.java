@@ -1,4 +1,4 @@
-package br.com.alura;
+package br.com.alura.ecommerce;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

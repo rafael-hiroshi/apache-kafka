@@ -12,7 +12,6 @@ public class ServiceRunner<T> {
     public void start(int threadCount) {
         var pool = Executors.newFixedThreadPool(threadCount);
         for (int i = 1; i <= threadCount; i++) {
-            System.out.println(i);
             pool.submit(provider);
         }
     }
