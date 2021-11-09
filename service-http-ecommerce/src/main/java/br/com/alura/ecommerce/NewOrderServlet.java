@@ -26,7 +26,7 @@ public class NewOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
-            // Dummy demonstration to process user input data, in this case there is no validation nor security to worry about
+            // Dummy demonstration to process user input data, in this case no validation nor security will be taken into account
             String orderId = UUID.randomUUID().toString();
             String email = req.getParameter("email");
             BigDecimal amount = new BigDecimal(req.getParameter("amount"));
@@ -34,10 +34,7 @@ public class NewOrderServlet extends HttpServlet {
             Order order = new Order(orderId, amount, email);
             orderDispatcher.send("ECOMMERCE_NEW_ORDER", email, new CorrelationId(NewOrderServlet.class.getSimpleName()) ,order);
 
-            Email emailContent = new Email("Order received", "Thank you for your order! We are processing your request");
-            emailDispatcher.send("ECOMMERCE_SEND_EMAIL", email, new CorrelationId(NewOrderServlet.class.getSimpleName()), emailContent);
-
-            System.out.println("New order sent successfully");
+            System.out.println ("New order sent successfully");
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println("New order sent");
         } catch (ExecutionException | InterruptedException | IOException e) {
