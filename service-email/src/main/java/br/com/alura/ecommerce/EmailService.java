@@ -10,7 +10,6 @@ public class EmailService {
         KafkaService service = new KafkaService(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
                 emailService::parse,
-                Email.class,
                 new HashMap<>());
         service.run();
     }

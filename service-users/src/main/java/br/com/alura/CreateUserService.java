@@ -21,7 +21,6 @@ public class CreateUserService {
         KafkaService service = new KafkaService(CreateUserService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 createUserService::parse,
-                Order.class,
                 new HashMap<>());
         service.run();
     }

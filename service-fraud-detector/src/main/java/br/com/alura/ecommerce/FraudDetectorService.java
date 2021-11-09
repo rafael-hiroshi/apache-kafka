@@ -14,7 +14,6 @@ public class FraudDetectorService {
         KafkaService service = new KafkaService(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 fraudDetectorService::parse,
-                Order.class,
                 new HashMap<>());
         service.run();
     }
