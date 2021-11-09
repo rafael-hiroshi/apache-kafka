@@ -1,22 +1,25 @@
 package br.com.alura.ecommerce;
 
-import br.com.alura.ecommerce.consumer.KafkaService;
+import br.com.alura.ecommerce.consumer.ConsumerService;
+import br.com.alura.ecommerce.consumer.ServiceRunner;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-
-public class EmailService {
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        EmailService emailService = new EmailService();
-        KafkaService service = new KafkaService(EmailService.class.getSimpleName(),
-                "ECOMMERCE_SEND_EMAIL",
-                emailService::parse,
-                new HashMap<>());
-        service.run();
+public class EmailService implements ConsumerService<Email> {
+    public static void main(String[] args) {
+        new ServiceRunner(EmailService::new).start(5);
     }
 
-    private void parse(ConsumerRecord<String, Message<Email>> record) {
+    @Override
+    public String getTopic() {
+        return "ECOMMERCE_SEND_EMAIL";
+    }
+
+    @Override
+    public String getConsumerGroup() {
+        return EmailService.class.getSimpleName();
+    }
+
+    public void parse(ConsumerRecord<String, Message<Email>> record) {
         try {
             System.out.println("-----------------------------------------");
             System.out.println("Send email");
